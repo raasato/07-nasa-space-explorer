@@ -18,13 +18,25 @@ const NASA_API_KEY = 'ajiLMxQ1mcozLbsstlouasLLWGsiXG9YlbC5jXCa';
 
 // List of facts we can show above the gallery
 const spaceFacts = [
-  'A day on Venus is longer than a year on Venus.',
-  'Neutron stars can spin faster than 600 times every second.',
-  'One million Earths could fit inside the Sun.',
-  'Saturn could float in water because it is less dense than water.',
-  'The footprints from Apollo astronauts can last on the Moon for millions of years.',
-  'Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.'
+  'Saturn is the only planet in our solar system that is less dense than water.',
+  'Mercury is the fastest planet in our solar system. A year on Mercury is equal to 88 Earth days.',
+  'Neptune’s winds are the fastest in the solar system, reaching 2,575 kilometers per hour (1,600 miles per hour)!',
+  'More than 1,300 Earths would fit into Jupiter’s vast sphere.',
+  'A Venus day is approximately 243 Earth days long.',
+  'Jupiter’s moon Io is the most volcanically active body in our solar system.',
+  'The largest canyon system in the solar system is Valles Marineris on Mars. It’s more than 4,000 kilometers (3,000 miles) long — enough to stretch from California to New York. It is nine times as long and four times as deep as Earth’s Grand Canyon!',
+  'The average temperature on Venus is more than 480 degrees Celsius (about 900 degrees Fahrenheit).',
+  'Our solar system includes the Sun, eight planets, five officially named dwarf planets, hundreds of moons, and thousands of asteroids and comets.',
+  'Our solar system is located in the Milky Way, a barred spiral galaxy with two major arms, and two minor arms. Our Sun is in a small, partial arm of the Milky Way called the Orion Arm, or Orion Spur, between the Sagittarius and Perseus arms.',
+  'Our solar system orbits the center of the galaxy at about 515,000 mph (828,000 kph). It takes about 230 million years to complete one orbit around the galactic center.',
+  'Of the eight planets, Mercury and Venus are the only ones with no moons, although Venus does have a quasi-satellite that has officially been named Zoozve.',
+  'Pluto, smaller than our own moon, has five moons in its orbit, including Charon, a moon so large it makes Pluto wobble.',
+  'Our solar system formed about 4.6 billion years ago from a dense cloud of interstellar gas and dust. The cloud collapsed, possibly due to the shockwave of a nearby exploding star, called a supernova. When this dust cloud collapsed, it formed a solar nebula – a spinning, swirling disk of material.',
+  'At the center, gravity pulled more and more material in. Eventually, the pressure in the core was so great that hydrogen atoms began to combine and form helium, releasing a tremendous amount of energy. With that, our Sun was born.',
+  'Nearest to the Sun, only rocky material could withstand the heat when the solar system was young. For this reason, the first four planets – Mercury, Venus, Earth, and Mars – are terrestrial planets.',
+  'Materials we are used to seeing as ice, liquid, or gas settled in the outer regions of the young solar system. Gravity pulled these materials together, and that is where we find gas giants Jupiter and Saturn, and the ice giants Uranus and Neptune.'
 ];
+
 
 // Call the setupDateInputs function from dateRange.js
 // This sets up the date pickers to:
