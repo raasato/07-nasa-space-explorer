@@ -15,6 +15,8 @@ const modalExplanation = document.getElementById('modalExplanation');
 
 // NASA API Key - Replace 'DEMO_KEY' with your own key from https://api.nasa.gov/
 const NASA_API_KEY = 'ajiLMxQ1mcozLbsstlouasLLWGsiXG9YlbC5jXCa';
+const REQUEST_TIMEOUT_MS = 12000;
+const MAX_RETRIES = 1;
 
 // List of facts we can show above the gallery
 const spaceFacts = [
@@ -132,6 +134,9 @@ document.addEventListener('keydown', (event) => {
 
 // Function to fetch images from NASA's APOD API
 async function fetchNASAImages() {
+  // Disable the button while loading to avoid duplicate requests
+  button.disabled = true;
+
   try {
     // Get the selected dates from the input fields
     const startDate = startInput.value;
@@ -152,8 +157,8 @@ async function fetchNASAImages() {
       </div>
     `;
 
-    // Fetch the data from NASA's API
-    const response = await fetch(apiUrl);
+    // Fetch the data with timeout and a small retry for temporary network issues
+    const response = await fetchWithRetry(apiUrl, MAX_RETRIES);
 
     // Check if the request was successful
     if (!response.ok) {
@@ -171,8 +176,57 @@ async function fetchNASAImages() {
   } catch (error) {
     // If something goes wrong, show an error message
     console.error('Error fetching NASA images:', error);
-    gallery.innerHTML = `<p>Error loading images: ${error.message}</p>`;
+    gallery.innerHTML = `<p>${getFriendlyErrorMessage(error)}</p>`;
+  } finally {
+    // Always re-enable the button after loading or error
+    button.disabled = false;
   }
+}
+
+// Fetch helper that applies a timeout and retries for temporary failures
+async function fetchWithRetry(url, retriesLeft) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    // Retry once for temporary server errors
+    if ((response.status === 503 || response.status === 504) && retriesLeft > 0) {
+      return fetchWithRetry(url, retriesLeft - 1);
+    }
+
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    // Retry once for temporary network interruptions
+    if (retriesLeft > 0) {
+      return fetchWithRetry(url, retriesLeft - 1);
+    }
+
+    throw error;
+  }
+}
+
+// Convert technical API errors into student-friendly messages
+function getFriendlyErrorMessage(error) {
+  const rawMessage = String(error.message || 'Unknown error');
+
+  if (rawMessage.includes('API Error 503') || rawMessage.includes('API Error 504')) {
+    return 'NASA API is temporarily unavailable (503). Please try again in a moment.';
+  }
+
+  if (error.name === 'AbortError') {
+    return 'Request timed out. Please check your internet connection and try again.';
+  }
+
+  if (rawMessage.includes('Failed to fetch') || rawMessage.includes('NetworkError')) {
+    return 'Could not connect to NASA API. Please check your internet connection and try again.';
+  }
+
+  return `Error loading images: ${rawMessage}`;
 }
 
 // Function to display images in the gallery
